@@ -151,7 +151,7 @@ public class Tela extends JFrame {
 
 		tfDisciplinaCodigo.setColumns(10);
 
-		// Consulta de Inscritos da disciplina
+		// Consulta de Inscritos da disciplina	
 
 		JPanel TelaDisciplinas = new JPanel();
 		tabbedPane.addTab("Disciplinas", null, TelaDisciplinas, null);

@@ -8,6 +8,7 @@ public class Disciplina {
 	public String horarioinicial;
 	public String qtdhorasdiarias;
 	public String codigocurso;
+	//codigo do processo?
 	
 	@Override
 	public String toString() {
