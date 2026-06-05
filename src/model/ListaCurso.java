@@ -2,70 +2,58 @@ package model;
 
 public class ListaCurso {
 
-	private NoCurso primeiro;
-	
-	public boolean listaVazia() {
-	    return primeiro == null;
-	}
-	
-	public int tamanho() {
-	    int cont = 0;
+    private NoCurso primeiro;
 
-	    NoCurso auxiliar = primeiro;
+    public boolean listaVazia() {
+        return primeiro == null;
+    }
 
-	    while (auxiliar != null) {
-	        cont++;
-	        auxiliar = auxiliar.getProximo();
-	    }
+    public NoCurso getPrimeiro() {
+        return primeiro;
+    }
 
-	    return cont;
-	}
-	
-	public void addFirst(Curso curso) {
+    public void addFirst(Curso curso) {
+        NoCurso novo = new NoCurso();
+        novo.setDado(curso);
+        novo.setProximo(primeiro);
+        primeiro = novo;
+    }
 
-	    NoCurso novo = new NoCurso();
-	    novo.setDado(curso);
-	    novo.setProximo(primeiro);
+    public void addLast(Curso curso) {
+        if (listaVazia()) {
+            addFirst(curso);
+        } else {
+            NoCurso novo = new NoCurso();
+            novo.setDado(curso);
+            novo.setProximo(null);
 
-	    primeiro = novo;
-	}
-	
-	public void addLast(Curso curso) {
+            NoCurso aux = primeiro;
 
-	    if (listaVazia()) {
-	        addFirst(curso);
-	    } else {
-	        NoCurso novo = new NoCurso();
-	        novo.setDado(curso);
-	        novo.setProximo(null);
+            while (aux.getProximo() != null) {
+                aux = aux.getProximo();
+            }
 
-	        NoCurso auxiliar = primeiro;
+            aux.setProximo(novo);
+        }
+    }
 
-	        while (auxiliar.getProximo() != null) {
-	            auxiliar = auxiliar.getProximo();
-	        }
+    public void remove(int pos) throws Exception {
 
-	        auxiliar.setProximo(novo);
-	    }
-	}
-	
-	public Curso get(int pos) throws Exception {
+        if (listaVazia()) {
+            throw new Exception("Lista vazia");
+        }
 
-	    if (listaVazia()) {
-	        throw new Exception("Lista vazia");
-	    }
+        if (pos == 0) {
+            primeiro = primeiro.getProximo();
+        } else {
+            NoCurso anterior = primeiro;
 
-	    if (pos < 0 || pos >= tamanho()) {
-	        throw new Exception("Posição inválida");
-	    }
+            for (int i = 0; i < pos - 1; i++) {
+                anterior = anterior.getProximo();
+            }
 
-	    NoCurso auxiliar = primeiro;
-
-	    for (int i = 0; i < pos; i++) {
-	        auxiliar = auxiliar.getProximo();
-	    }
-
-	    return auxiliar.getDado();
-	}
-
+            NoCurso atual = anterior.getProximo();
+            anterior.setProximo(atual.getProximo());
+        }
+    }
 }

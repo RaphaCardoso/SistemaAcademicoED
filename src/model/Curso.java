@@ -12,6 +12,11 @@ public class Curso {
 		this(0, "", "");	
 	}
 	
+	@Override
+	public String toString() {
+		return codigoCurso +";"+ nomeCurso + ";" + areaConhecimento;
+	}
+	
 	public Curso(int codigoCurso, String nomeCurso, String areaConhecimento) {
 		this.codigoCurso = codigoCurso;
 		this.nomeCurso = nomeCurso;
@@ -43,7 +48,4 @@ public class Curso {
 	}
 	
 	
-	
-	
-
 }
