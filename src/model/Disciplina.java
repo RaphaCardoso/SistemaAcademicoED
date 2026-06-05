@@ -12,8 +12,7 @@ public class Disciplina {
 	
 	@Override
 	public String toString() {
-		return "Disciplina [codigo=" + codigo + ", nome=" + nome + ", diasemana=" + diasemana + ", horarioinicial="
-				+ horarioinicial + ", qtdhorasdiarias=" + qtdhorasdiarias + ", codigocurso=" + codigocurso + "]";
+		return codigo+";"+nome+";"+diasemana+";"+horarioinicial+";"+qtdhorasdiarias+";"+codigocurso;
 	}
 	
 	
