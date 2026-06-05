@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.CursoControllerSwing;
 import controller.DisciplinaController;
 
 import javax.swing.JTabbedPane;
@@ -29,6 +30,9 @@ public class Tela extends JFrame {
 	private JTextField tfDisciplinaQtdHoras;
 	private JTextField tfDisciplinaCodCurso;
 	private JTextField tfDisciplinaSemana;
+	private JTextField TFCursoNome;
+	private JTextField TFCursoCodigo;
+	private JTextField TFCursoArea;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -79,18 +83,54 @@ public class Tela extends JFrame {
 
 		JButton btnCadastrarCurso = new JButton("Cadastrar Curso");
 		btnCadastrarCurso.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnCadastrarCurso.setBounds(411, 37, 166, 20);
+		btnCadastrarCurso.setBounds(411, 10, 166, 20);
 		TelaCurso.add(btnCadastrarCurso);
 
 		JButton btnBuscarCurso = new JButton("Buscar Curso");
 		btnBuscarCurso.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnBuscarCurso.setBounds(411, 69, 166, 20);
+		btnBuscarCurso.setBounds(411, 42, 166, 20);
 		TelaCurso.add(btnBuscarCurso);
+		
+		JButton btnEditarCurso = new JButton("Editar Curso");
+		btnEditarCurso.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnEditarCurso.setBounds(411, 72, 166, 20);
+		TelaCurso.add(btnEditarCurso);
+		
+		JButton btnDeletarCurso = new JButton("Deletar Curso");
+		btnDeletarCurso.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnDeletarCurso.setBounds(411, 106, 166, 20);
+		TelaCurso.add(btnDeletarCurso);
+	
 
 		JTextArea TAListaCurso = new JTextArea();
 		TAListaCurso.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		TAListaCurso.setBounds(23, 137, 568, 249);
 		TelaCurso.add(TAListaCurso);
+		
+		TFCursoCodigo = new JTextField();
+		TFCursoCodigo.setBounds(182, 37, 180, 18);
+		TelaCurso.add(TFCursoCodigo);
+		TFCursoCodigo.setColumns(10);
+		
+		TFCursoNome = new JTextField();
+		TFCursoNome.setBounds(182, 72, 180, 18);
+		TelaCurso.add(TFCursoNome);
+		TFCursoNome.setColumns(10);
+		
+		TFCursoArea = new JTextField();
+		TFCursoArea.setBounds(182, 107, 180, 18);
+		TelaCurso.add(TFCursoArea);
+
+
+		CursoControllerSwing cCont = new CursoControllerSwing(
+			    TFCursoCodigo, TFCursoNome, TFCursoArea, TAListaCurso
+			);
+		
+		btnCadastrarCurso.addActionListener(cCont);
+		btnBuscarCurso.addActionListener(cCont);
+		btnEditarCurso.addActionListener(cCont);
+		btnDeletarCurso.addActionListener(cCont);
+		
 
 		// Tela Professor
 
@@ -262,7 +302,6 @@ public class Tela extends JFrame {
 		btnDisciplinasConsultar.addActionListener(dCont);
 		btnDisciplinasAtualizar.addActionListener(dCont);
 		btnDisciplinasRemover.addActionListener(dCont);
-		
 		
 
 	}

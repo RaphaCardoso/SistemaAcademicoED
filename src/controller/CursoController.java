@@ -92,13 +92,29 @@ public class CursoController {
         return buscaRecursiva(no.getProximo(), codigo);
     }
     
+    public String listarTodos(String caminho) throws IOException {
+
+        carregarCSV(caminho);
+
+        StringBuilder sb = new StringBuilder();
+
+        NoCurso aux = lista.getPrimeiro();
+
+        while (aux != null) {
+            sb.append(aux.getDado().toString()).append("\n");
+            aux = aux.getProximo();
+        }
+
+        return sb.toString();
+    }
+    
     public void remover(int codigo, String caminho) throws Exception {
 
-    	if (buscaRecursiva(lista.getPrimeiro(), codigo) == null) {
-    	    throw new Exception("Curso não encontrado!");
-    	}	
-    	
         carregarCSV(caminho);
+
+        if (buscaRecursiva(lista.getPrimeiro(), codigo) == null) {
+            throw new Exception("Curso não encontrado!");
+        }
 
         ListaCurso novaLista = new ListaCurso();
 
@@ -124,13 +140,12 @@ public class CursoController {
     }
     
     public void atualizar(int codigo, Curso novoCurso, String caminho) throws Exception {
+    	carregarCSV(caminho);
 
     	if (buscaRecursiva(lista.getPrimeiro(), codigo) == null) {
     	    throw new Exception("Curso não encontrado!");
     	}
     	
-        carregarCSV(caminho);
-
         ListaCurso novaLista = new ListaCurso();
 
         atualizarRecursivo(lista.getPrimeiro(), codigo, novoCurso, novaLista);
