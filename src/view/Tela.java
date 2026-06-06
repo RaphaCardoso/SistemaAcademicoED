@@ -206,28 +206,8 @@ public class Tela extends JFrame {
 
         btnCadastrarProfessor.addActionListener(pCont);
         btnBuscarProfessor.addActionListener(pCont);
-
-		// Tela Buscar Incrição
-		JPanel TelaInscrição = new JPanel();
-		tabbedPane.addTab("Inscrição", null, TelaInscrição, null);
-		TelaInscrição.setLayout(null);
-
-		// Buscar Inscrição
-
-		JLabel lblBuscarInscricao = new JLabel("Buscar inscrição");
-		lblBuscarInscricao.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblBuscarInscricao.setBounds(59, 9, 110, 17);
-		TelaInscrição.add(lblBuscarInscricao);
-
-		JLabel lblNumDaInscrição = new JLabel("Numero da inscrição");
-		lblNumDaInscrição.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNumDaInscrição.setBounds(174, 9, 124, 17);
-		TelaInscrição.add(lblNumDaInscrição);
-
-		JButton btnBuscarInscrição = new JButton("Buscar Inscrição");
-		btnBuscarInscrição.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnBuscarInscrição.setBounds(394, 5, 147, 25);
-		TelaInscrição.add(btnBuscarInscrição);
+				
+			
 
 		tfDisciplinaCodigo = new JTextField();
 		tfDisciplinaCodigo.setFont(new Font("Tahoma", Font.PLAIN, 14));
