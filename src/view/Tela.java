@@ -5,10 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import controller.CursoControllerSwing;
 import controller.DisciplinaController;
-
+import controller.ProfessorController;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -33,6 +32,11 @@ public class Tela extends JFrame {
 	private JTextField TFCursoNome;
 	private JTextField TFCursoCodigo;
 	private JTextField TFCursoArea;
+	private JTextField TFbuscarProfessor;
+    private JTextField TFProfessorCpf;
+    private JTextField TFProfessorNome;
+    private JTextField TFProfessorAreaInscricao;
+    private JTextField TFProfessorPontos;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -132,36 +136,76 @@ public class Tela extends JFrame {
 		btnDeletarCurso.addActionListener(cCont);
 		
 
-		// Tela Professor
-
 		JPanel TelaProfessor = new JPanel();
 		tabbedPane.addTab("Professor", null, TelaProfessor, null);
 		TelaProfessor.setLayout(null);
+		
+		TFbuscarProfessor = new JTextField();
+		TFbuscarProfessor.setBounds(182, 72, 154, 18);
+		
+		TFbuscarProfessor.setColumns(10);	
+		
+		JLabel lblCpfProfessor = new JLabel("CPF do Professor");
+		lblCpfProfessor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCpfProfessor.setBounds(29, 37, 105, 25);
+		TelaProfessor.add(lblCpfProfessor);
+		
+		JLabel lblNomeProfessor = new JLabel("Nome do Professor");
+		lblNomeProfessor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNomeProfessor.setBounds(17, 73, 117, 25);
+		TelaProfessor.add(lblNomeProfessor);
+		
+		JLabel lblAreaInscricao = new JLabel("Área de Inscrição");
+		lblAreaInscricao.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblAreaInscricao.setBounds(30, 109, 104, 25);
+		TelaProfessor.add(lblAreaInscricao);
+		
+		JLabel lblPontos = new JLabel("Pontos");
+		lblPontos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblPontos.setBounds(91, 145, 43, 25);
+		TelaProfessor.add(lblPontos);
 
-		// Campos Professor
-
-		// Buscar Professor
-		JLabel lblBuscarProfessor = new JLabel("Buscar professor");
-		lblBuscarProfessor.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblBuscarProfessor.setBounds(30, 9, 117, 17);
-		TelaProfessor.add(lblBuscarProfessor);
-
-		JLabel lblBuscarProfessorCPF = new JLabel("CPF");
-		lblBuscarProfessorCPF.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblBuscarProfessorCPF.setBounds(179, 9, 24, 17);
-		TelaProfessor.add(lblBuscarProfessorCPF);
-
-		JButton btnBuscarProfessor = new JButton("Buscar Professor");
+		JButton btnBuscarProfessor = new JButton("Buscar");
 		btnBuscarProfessor.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnBuscarProfessor.setBounds(193, 170, 149, 25);
+		btnBuscarProfessor.setBounds(420, 73, 171, 25);
 		TelaProfessor.add(btnBuscarProfessor);
 
-		// Cadastrar Professor
+		//Cadastrar Professor
 
-		JButton btncadastrarProfessor = new JButton("Cadastrar Professor");
-		btncadastrarProfessor.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btncadastrarProfessor.setBounds(365, 130, 171, 25);
-		TelaProfessor.add(btncadastrarProfessor);
+		JButton btnCadastrarProfessor = new JButton("Cadastrar");
+		btnCadastrarProfessor.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCadastrarProfessor.setBounds(420, 37, 171, 25);
+		TelaProfessor.add(btnCadastrarProfessor);
+		
+		TFProfessorCpf = new JTextField();
+		TFProfessorCpf.setColumns(10);
+		TFProfessorCpf.setBounds(144, 42, 154, 18);
+		TelaProfessor.add(TFProfessorCpf);
+		
+		TFProfessorNome = new JTextField();
+		TFProfessorNome.setColumns(10);
+		TFProfessorNome.setBounds(144, 80, 154, 18);
+		TelaProfessor.add(TFProfessorNome);
+		
+		TFProfessorAreaInscricao = new JTextField();
+		TFProfessorAreaInscricao.setColumns(10);
+		TFProfessorAreaInscricao.setBounds(144, 117, 154, 18);
+		TelaProfessor.add(TFProfessorAreaInscricao);
+		
+		TFProfessorPontos = new JTextField();
+		TFProfessorPontos.setColumns(10);
+		TFProfessorPontos.setBounds(144, 149, 154, 18);
+		TelaProfessor.add(TFProfessorPontos);
+		
+		JTextArea taProfessorLista = new JTextArea();
+		taProfessorLista.setFont(new Font("Monospaced", Font.PLAIN, 13));
+		taProfessorLista.setBounds(17, 181, 574, 203);
+		TelaProfessor.add(taProfessorLista);
+		
+		ProfessorController pCont = new ProfessorController(TFProfessorCpf, TFProfessorNome, TFProfessorAreaInscricao, TFProfessorPontos, taProfessorLista);
+
+        btnCadastrarProfessor.addActionListener(pCont);
+        btnBuscarProfessor.addActionListener(pCont);
 
 		// Tela Buscar Incrição
 		JPanel TelaInscrição = new JPanel();
