@@ -1,19 +1,22 @@
 package controller;
 
 import java.io.*;
-import model.*;
+import model.Curso;
+import br.edu.estruturaDados.listaEncadeada.*;
+import br.edu.estruturaDados.listaEncadeada.No;
+import br.edu.estruturaDados.fila.*;
 
 public class CursoController {
 
-    private ListaCurso lista;
+    private ListaEncadeada<Curso> lista;
 
     public CursoController() {
-        lista = new ListaCurso();
+        lista = new ListaEncadeada<>();
     }
 
     public void carregarCSV(String caminho) throws IOException {
 
-        lista = new ListaCurso();
+        lista = new ListaEncadeada<>();
 
         File file = new File(caminho);
         if (!file.exists()) {
@@ -26,7 +29,15 @@ public class CursoController {
 
         while ((linha = br.readLine()) != null) {
 
+            if (linha.trim().isEmpty()) {
+                continue;
+            }
+
             String[] partes = linha.split(";");
+
+            if (partes.length < 3) {
+                continue;
+            }
 
             Curso c = new Curso(
                 Integer.parseInt(partes[0]),
@@ -44,15 +55,11 @@ public class CursoController {
 
         BufferedWriter bw = new BufferedWriter(new FileWriter(caminho));
 
-        NoCurso aux = lista.getPrimeiro();
+        No<Curso> aux = lista.getPrimeiro();
 
         while (aux != null) {
-
-            Curso c = aux.getDado();
-
-            bw.write(c.toString());
+            bw.write(aux.getDado().toString());
             bw.newLine();
-
             aux = aux.getProximo();
         }
 
@@ -63,7 +70,7 @@ public class CursoController {
 
         carregarCSV(caminho);
 
-        if (buscaRecursiva(lista.getPrimeiro(), curso.getCodigoCurso()) != null) {
+        if (buscar(curso.getCodigoCurso(), caminho) != null) {
             throw new Exception("Curso já existe!");
         }
 
@@ -76,97 +83,80 @@ public class CursoController {
 
         carregarCSV(caminho);
 
-        return buscaRecursiva(lista.getPrimeiro(), codigo);
-    }
+        No<Curso> aux = lista.getPrimeiro();
 
-    private Curso buscaRecursiva(NoCurso no, int codigo) {
-
-        if (no == null) {
-            return null;
+        while (aux != null) {
+            if (aux.getDado().getCodigoCurso() == codigo) {
+                return aux.getDado();
+            }
+            aux = aux.getProximo();
         }
 
-        if (no.getDado().getCodigoCurso() == codigo) {
-            return no.getDado();
-        }
-
-        return buscaRecursiva(no.getProximo(), codigo);
+        return null;
     }
-    
+
     public String listarTodos(String caminho) throws IOException {
 
         carregarCSV(caminho);
 
-        StringBuilder sb = new StringBuilder();
+        Fila<Curso> fila = new Fila<>();
 
-        NoCurso aux = lista.getPrimeiro();
+        No<Curso> aux = lista.getPrimeiro();
 
         while (aux != null) {
-            sb.append(aux.getDado().toString()).append("\n");
+            fila.enqueue(aux.getDado());
             aux = aux.getProximo();
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        while (!fila.isEmpty()) {
+            try {
+                sb.append(fila.dequeue().toString()).append("\n");
+            } catch (Exception e) {
+                break;
+            }
         }
 
         return sb.toString();
     }
-    
+
     public void remover(int codigo, String caminho) throws Exception {
 
         carregarCSV(caminho);
 
-        if (buscaRecursiva(lista.getPrimeiro(), codigo) == null) {
-            throw new Exception("Curso não encontrado!");
+        No<Curso> aux = lista.getPrimeiro();
+
+        while (aux != null) {
+            if (aux.getDado().getCodigoCurso() == codigo) {
+                lista.remove(aux.getDado());
+                salvarCSV(caminho);
+                return;
+            }
+            aux = aux.getProximo();
         }
 
-        ListaCurso novaLista = new ListaCurso();
-
-        removerRecursivo(lista.getPrimeiro(), codigo, novaLista);
-
-        lista = novaLista;
-
-        salvarCSV(caminho);
+        throw new Exception("Curso não encontrado!");
     }
-    
-    private void removerRecursivo(NoCurso no, int codigo, ListaCurso novaLista) {
-    	    	
 
-        if (no == null) {
-            return;
-        }
-
-        if (no.getDado().getCodigoCurso() != codigo) {
-            novaLista.addLast(no.getDado());
-        }
-
-        removerRecursivo(no.getProximo(), codigo, novaLista);
-    }
-    
     public void atualizar(int codigo, Curso novoCurso, String caminho) throws Exception {
-    	carregarCSV(caminho);
 
-    	if (buscaRecursiva(lista.getPrimeiro(), codigo) == null) {
-    	    throw new Exception("Curso não encontrado!");
-    	}
-    	
-        ListaCurso novaLista = new ListaCurso();
+        carregarCSV(caminho);
 
-        atualizarRecursivo(lista.getPrimeiro(), codigo, novoCurso, novaLista);
+        No<Curso> aux = lista.getPrimeiro();
 
-        lista = novaLista;
+        while (aux != null) {
+            if (aux.getDado().getCodigoCurso() == codigo) {
 
-        salvarCSV(caminho);
-    }
-    
-    private void atualizarRecursivo(NoCurso no, int codigo, Curso novoCurso, ListaCurso novaLista) {
+                aux.getDado().setNomeCurso(novoCurso.getNomeCurso());
+                aux.getDado().setAreaConhecimento(novoCurso.getAreaConhecimento());
 
-        if (no == null) {
-            return;
+                salvarCSV(caminho);
+                return;
+            }
+            aux = aux.getProximo();
         }
 
-        if (no.getDado().getCodigoCurso() == codigo) {
-            novaLista.addLast(novoCurso);
-        } else {
-            novaLista.addLast(no.getDado());
-        }
-
-        atualizarRecursivo(no.getProximo(), codigo, novoCurso, novaLista);
+        throw new Exception("Curso não encontrado!");
     }
 }

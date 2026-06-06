@@ -86,6 +86,9 @@
 		    } else {
 		        taLista.setText("Curso não encontrado!");
 		    }
+		    
+		    limparCampos();
+
 		}	
 		
 		private void limparCampos() {
@@ -98,9 +101,24 @@
 		
 		private void editar() throws Exception {
 
-		    int codigo = Integer.parseInt(TFCursoCodigo.getText());
-		    String nome = TFCursoNome.getText();
-		    String area = TFCursoArea.getText();
+		    String textoCodigo = TFCursoCodigo.getText().trim();
+		    String nome = TFCursoNome.getText().trim();
+		    String area = TFCursoArea.getText().trim();
+
+		    // 🔒 validação
+		    if (textoCodigo.isEmpty()) {
+		        throw new Exception("Informe o código do curso para editar!");
+		    }
+
+		    if (nome.isEmpty()) {
+		        throw new Exception("Informe o nome do curso!");
+		    }
+
+		    if (area.isEmpty()) {
+		        throw new Exception("Informe a área do conhecimento!");
+		    }
+
+		    int codigo = Integer.parseInt(textoCodigo);
 
 		    Curso novoCurso = new Curso(codigo, nome, area);
 
