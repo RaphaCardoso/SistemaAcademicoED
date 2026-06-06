@@ -37,6 +37,9 @@ public class Tela extends JFrame {
     private JTextField TFProfessorNome;
     private JTextField TFProfessorAreaInscricao;
     private JTextField TFProfessorPontos;
+    private JTextField textField;
+    private JTextField textField_1;
+    private JTextField textField_2;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -135,6 +138,73 @@ public class Tela extends JFrame {
 		btnEditarCurso.addActionListener(cCont);
 		btnDeletarCurso.addActionListener(cCont);
 		
+		// Tela Buscar Inscrição
+		
+		JPanel TelaInscrição = new JPanel();
+		tabbedPane.addTab("Inscrição", null, TelaInscrição, null);
+		TelaInscrição.setLayout(null);
+
+		JLabel lblNumDaInscrição = new JLabel("Numero da inscrição:");
+		lblNumDaInscrição.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNumDaInscrição.setBounds(10, 40, 147, 17);
+		TelaInscrição.add(lblNumDaInscrição);
+
+		JLabel lblCPF = new JLabel("CPF:");
+		lblCPF.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCPF.setBounds(10, 70, 36, 22);
+		TelaInscrição.add(lblCPF);
+
+		JLabel lblCodProcesso = new JLabel("Codigo do processo:");
+		lblCodProcesso.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCodProcesso.setBounds(10, 103, 147, 22);
+		TelaInscrição.add(lblCodProcesso);
+
+		//Botao Inscrição
+		
+		JButton btnCadastrarInscricao = new JButton("Cadastrar Inscrição");
+		btnCadastrarInscricao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCadastrarInscricao.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCadastrarInscricao.setBounds(373, 87, 194, 25);
+		TelaInscrição.add(btnCadastrarInscricao);
+
+		JButton btnBuscarInscrição = new JButton("Buscar Inscrição");
+		btnBuscarInscrição.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnBuscarInscrição.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnBuscarInscrição.setBounds(373, 51, 194, 25);
+		TelaInscrição.add(btnBuscarInscrição);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField.setColumns(10);
+		textField.setBounds(153, 36, 86, 25);
+		TelaInscrição.add(textField);
+		
+		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_1.setColumns(10);
+		textField_1.setBounds(48, 68, 191, 25);
+		TelaInscrição.add(textField_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_2.setColumns(10);
+		textField_2.setBounds(153, 102, 86, 25);
+		TelaInscrição.add(textField_2);
+		
+		JTextArea taDisciplinaLista_1 = new JTextArea();
+		taDisciplinaLista_1.setBounds(10, 156, 579, 228);
+		TelaInscrição.add(taDisciplinaLista_1);
+				
+		
+		//tela Professor
+		
+		
 
 		JPanel TelaProfessor = new JPanel();
 		tabbedPane.addTab("Professor", null, TelaProfessor, null);
@@ -207,8 +277,7 @@ public class Tela extends JFrame {
         btnCadastrarProfessor.addActionListener(pCont);
         btnBuscarProfessor.addActionListener(pCont);
 				
-			
-
+		
 		tfDisciplinaCodigo = new JTextField();
 		tfDisciplinaCodigo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tfDisciplinaCodigo.setBounds(173, 7, 86, 25);
