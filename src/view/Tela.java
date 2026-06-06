@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import controller.CursoControllerSwing;
 import controller.DisciplinaController;
 import controller.ProfessorController;
+import model.Inscricao;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -18,6 +20,8 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import controller.InscricaoController;
+
 
 public class Tela extends JFrame {
 
@@ -37,9 +41,10 @@ public class Tela extends JFrame {
     private JTextField TFProfessorNome;
     private JTextField TFProfessorAreaInscricao;
     private JTextField TFProfessorPontos;
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
+    //inscricao
+    private JTextField TFCodProcesso_; 
+    private JTextField TFCPFInsc;
+    private JTextField TFDaDisciplina;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -144,67 +149,67 @@ public class Tela extends JFrame {
 		tabbedPane.addTab("Inscrição", null, TelaInscrição, null);
 		TelaInscrição.setLayout(null);
 
-		JLabel lblNumDaInscrição = new JLabel("Numero da inscrição:");
+		JLabel lblNumDaInscrição = new JLabel("Codigo do processo:");
 		lblNumDaInscrição.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNumDaInscrição.setBounds(10, 40, 147, 17);
 		TelaInscrição.add(lblNumDaInscrição);
 
 		JLabel lblCPF = new JLabel("CPF:");
 		lblCPF.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCPF.setBounds(10, 70, 36, 22);
+		lblCPF.setBounds(10, 68, 36, 22);
 		TelaInscrição.add(lblCPF);
 
-		JLabel lblCodProcesso = new JLabel("Codigo do processo:");
+		JLabel lblCodProcesso = new JLabel("Codigo da disciplina:");
 		lblCodProcesso.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCodProcesso.setBounds(10, 103, 147, 22);
 		TelaInscrição.add(lblCodProcesso);
 
 		//Botao Inscrição
 		
-		JButton btnCadastrarInscricao = new JButton("Cadastrar Inscrição");
+		JButton btnCadastrarInscricao = new JButton("Cadastrar");
 		btnCadastrarInscricao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnCadastrarInscricao.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnCadastrarInscricao.setBounds(373, 87, 194, 25);
+		btnCadastrarInscricao.setBounds(376, 48, 194, 25);
 		TelaInscrição.add(btnCadastrarInscricao);
+		
 
 		JButton btnBuscarInscrição = new JButton("Buscar Inscrição");
-		btnBuscarInscrição.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnBuscarInscrição.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnBuscarInscrição.setBounds(373, 51, 194, 25);
+		btnBuscarInscrição.setBounds(376, 84, 194, 25);
 		TelaInscrição.add(btnBuscarInscrição);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField.setColumns(10);
-		textField.setBounds(153, 36, 86, 25);
-		TelaInscrição.add(textField);
+		TFCodProcesso_ = new JTextField();
+		TFCodProcesso_.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		TFCodProcesso_.setColumns(10);
+		TFCodProcesso_.setBounds(153, 36, 126, 25);
+		TelaInscrição.add(TFCodProcesso_);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_1.setColumns(10);
-		textField_1.setBounds(48, 68, 191, 25);
-		TelaInscrição.add(textField_1);
+		TFCPFInsc = new JTextField();
+		TFCPFInsc.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		TFCPFInsc.setColumns(10);
+		TFCPFInsc.setBounds(85, 68, 194, 25);
+		TelaInscrição.add(TFCPFInsc);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_2.setColumns(10);
-		textField_2.setBounds(153, 102, 86, 25);
-		TelaInscrição.add(textField_2);
+		TFDaDisciplina= new JTextField();
+		TFDaDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		TFDaDisciplina.setColumns(10);
+		TFDaDisciplina.setBounds(153, 102, 126, 25);
+		TelaInscrição.add(TFDaDisciplina);
 		
-		JTextArea taDisciplinaLista_1 = new JTextArea();
-		taDisciplinaLista_1.setBounds(10, 156, 579, 228);
-		TelaInscrição.add(taDisciplinaLista_1);
+		JTextArea TaInsc = new JTextArea();
+		TaInsc.setBounds(10, 156, 579, 228);
+		TelaInscrição.add(TaInsc);
 				
+		InscricaoController icont = new InscricaoController(TFCodProcesso_, TFCPFInsc, TFDaDisciplina);
+
+		btnCadastrarInscricao.addActionListener(icont);
+		btnBuscarInscrição.addActionListener(icont);
+		
 		
 		//tela Professor
-		
-		
 
 		JPanel TelaProfessor = new JPanel();
 		tabbedPane.addTab("Professor", null, TelaProfessor, null);

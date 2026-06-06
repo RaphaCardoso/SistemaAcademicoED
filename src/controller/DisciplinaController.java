@@ -73,8 +73,7 @@ public class DisciplinaController implements ActionListener{
 		disciplina.horarioinicial = tfDisciplinaHora    .getText();
 		disciplina.qtdhorasdiarias = tfDisciplinaQtdHoras.getText();
 		disciplina.codigocurso = tfDisciplinaCodCurso.getText();
-		
-//		System.out.println(disciplina);
+				
 		insereDisciplina(disciplina.toString());
 		tfDisciplinaCodigo.setText("");
 		tfDisciplinaNome.setText("");
@@ -90,7 +89,7 @@ public class DisciplinaController implements ActionListener{
 		if(!dir.exists()) {
 			dir.mkdir();
 		}
-		File arq = new File (path,"disciplina.csv");
+		File arq = new File (path,"displicina.csv");
 		boolean existe = false;
 		if(arq.exists()) {
 			existe = true;

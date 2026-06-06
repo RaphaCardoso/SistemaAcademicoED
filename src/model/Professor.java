@@ -11,6 +11,4 @@ public class Professor {
 		return cpf+";"+nome+";"+ areaInscricao+";"+pontos;
 	}
 	
-	 
-	
 }
