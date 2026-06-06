@@ -279,9 +279,22 @@ public class Tela extends JFrame {
 		
 		ProfessorController pCont = new ProfessorController(TFProfessorCpf, TFProfessorNome, TFProfessorAreaInscricao, TFProfessorPontos, taProfessorLista);
 
+		JButton btnRemoverProfessor = new JButton("Remover");
+		btnRemoverProfessor.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnRemoverProfessor.setBounds(420, 112, 171, 25);
+		TelaProfessor.add(btnRemoverProfessor);
+		
+		JButton btnEditarProfessor = new JButton("Editar");
+		btnEditarProfessor.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnEditarProfessor.setBounds(420, 145, 171, 25);
+		TelaProfessor.add(btnEditarProfessor);
+
+		// LEMBRAR DE ADICONAR ISSO QUANDO COMITTAR
+		
         btnCadastrarProfessor.addActionListener(pCont);
         btnBuscarProfessor.addActionListener(pCont);
-				
+        btnRemoverProfessor.addActionListener(pCont);
+        btnEditarProfessor.addActionListener(pCont);
 		
 		tfDisciplinaCodigo = new JTextField();
 		tfDisciplinaCodigo.setFont(new Font("Tahoma", Font.PLAIN, 14));
