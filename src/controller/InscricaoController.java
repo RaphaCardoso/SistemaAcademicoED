@@ -58,21 +58,21 @@ public class InscricaoController implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
-		if(cmd.equals("Consultar")) {
+		if(cmd.equals("Buscar Inscrição")) {
 			try {
 				consulta();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
-		if (cmd.equals("Atualizar")) {
+		if (cmd.equals("Atualizar Inscrição")) {
 			try {
 				atualiza();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
-		if (cmd.equals("Remover")) {
+		if (cmd.equals("Deletar Inscrição")) {
 			try {
 				remove();
 			} catch (IOException e1) {
@@ -107,13 +107,13 @@ public class InscricaoController implements ActionListener {
 	    if (!profController.cpfJaExiste(cpf)) {
 	    	
 	    	TaInsc.setText("Cadastro de Professor não encontrado.");
-	    	limpar();
+	    	
 	    	return;
 		}
 	    
 	    if(!disciplinaController.codigoJaExiste(codDisciplina)) {
 	    	TaInsc.setText("Cadastro de Disciplina não encontrado. ");
-	    	limpar();
+	    	
 	    return;
 	    }
 	    
@@ -166,7 +166,7 @@ public class InscricaoController implements ActionListener {
 
 		if (inscri.codDisciplina!= null) {
 
-			TaInsc.setText("CPF: " + inscri.cpf + " - Codigo de processo: " + inscri.codProcesso_
+			TaInsc.setText("Codigo de processo: " + inscri.codProcesso_ + " - CPF: " + inscri.cpf
 					+ " - Codigo da disciplina " + inscri.codDisciplina);
 
 		} else {
@@ -186,7 +186,7 @@ public class InscricaoController implements ActionListener {
 
 				Inscricao inscricao = fila.dequeue();
 
-				if(inscricao.codProcesso_.equals(inscricao.codProcesso_)) {
+				if(inscri.codProcesso_.equals(inscricao.codProcesso_)) {
 					return inscricao;
 				}
 			}
@@ -216,7 +216,7 @@ public class InscricaoController implements ActionListener {
 
 				String[] dados = linha.split(";");
 
-				if (dados.length >= 6) {
+				if (dados.length >= 3) {
 
 					Inscricao inscricao = new Inscricao();
 
@@ -338,6 +338,24 @@ public class InscricaoController implements ActionListener {
 
 			TaInsc.setText("Todos os campos devem ser preenchidos.");
 			return;
+		}
+		
+		if (!profController.cpfJaExiste(cpf)) {
+
+		    TaInsc.setText(
+		        "CPF não cadastrado no sistema."
+		    );
+
+		    return;
+		}
+
+		if (!disciplinaController.codigoJaExiste(codDisciplina)) {
+
+		    TaInsc.setText(
+		        "Código de disciplina não cadastrado."
+		    );
+
+		    return;
 		}
 
 		ListaEncadeada<Inscricao> lista = carregarListaInscricao();

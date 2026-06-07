@@ -192,14 +192,14 @@ public class Tela extends JFrame {
 				
 		InscricaoController icont = new InscricaoController(TFCodProcesso_, TFCPFInsc, TFDaDisciplina, TaInsc);
 		
-		JButton btnBuscarInscrição = new JButton("Buscar Inscrição");
-		btnBuscarInscrição.addActionListener(new ActionListener() {
+		JButton btnBuscarInscricao = new JButton("Buscar Inscrição");
+		btnBuscarInscricao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnBuscarInscrição.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnBuscarInscrição.setBounds(376, 46, 194, 25);
-		TelaInscrição.add(btnBuscarInscrição);		
+		btnBuscarInscricao.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnBuscarInscricao.setBounds(376, 46, 194, 25);
+		TelaInscrição.add(btnBuscarInscricao);		
 		
 		JButton btnCadastrarInscricao = new JButton("Cadastrar");
 		btnCadastrarInscricao.addActionListener(new ActionListener() {
@@ -221,7 +221,7 @@ public class Tela extends JFrame {
 		TelaInscrição.add(btnDeletarInscricao);
 
 		btnCadastrarInscricao.addActionListener(icont);
-		btnBuscarInscrição.addActionListener(icont);
+		btnBuscarInscricao.addActionListener(icont);
 		btnDeletarInscricao.addActionListener(icont);
 		btnAtualizarInscrição.addActionListener(icont);
 		
