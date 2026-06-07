@@ -21,6 +21,8 @@ import br.edu.estruturaDados.listaEncadeada.No;
 import model.Inscricao;
 import model.Professor;
 import model.Disciplina;
+import controller.DisciplinaController;
+import controller.ProfessorController;
 
 
 
@@ -31,6 +33,8 @@ public class InscricaoController implements ActionListener {
 	private JTextField TFCPFInsc;
 	private JTextField TFDaDisciplina;
 	private JTextArea TaInsc;
+	private ProfessorController profController;
+	private DisciplinaController disciplinaController;
 	
 	public InscricaoController(JTextField TFCodProcesso_, JTextField TFCPFInsc, JTextField TFDaDisciplina, JTextArea TaInsc) {
 		super();
@@ -38,6 +42,8 @@ public class InscricaoController implements ActionListener {
 		this.TFCPFInsc = TFCPFInsc;
 		this.TFDaDisciplina = TFDaDisciplina;
 		this.TaInsc = TaInsc;
+		this.disciplinaController = new DisciplinaController(null,null,null,null,null,null,null);
+		this.profController = new ProfessorController(null,null,null,null,null);
 		
 	}
 	
@@ -86,14 +92,7 @@ public class InscricaoController implements ActionListener {
 	    Professor professor = new Professor();
 	    Disciplina disciplina = new Disciplina();
 	    
-		if (!cpfJaExiste(professor.cpf)) {
-			JOptionPane.showMessageDialog(null, "CPF não pode ser inscrito pois não há cadastro Professor.csv");
-			return;
-		} else if(!disciplinaJaExiste(disciplina.codigo)) {
-			JOptionPane.showMessageDialog(null, "CPF não pode ser inscrito pois não há cadastro em Disciplina.csv");
-			return;
-		}
-	   
+		   
 	    if(cpf.isEmpty() ||
 	       codProcesso.isEmpty() ||
 	       codDisciplina.isEmpty()) {
@@ -103,7 +102,22 @@ public class InscricaoController implements ActionListener {
 	        );
 	        return;
 	    } 
-
+	    
+	    
+	    if (!profController.cpfJaExiste(cpf)) {
+	    	
+	    	TaInsc.setText("Cadastro de Professor não encontrado.");
+	    	limpar();
+	    	return;
+		}
+	    
+	    if(!disciplinaController.codigoJaExiste(codDisciplina)) {
+	    	TaInsc.setText("Cadastro de Disciplina não encontrado. ");
+	    	limpar();
+	    return;
+	    }
+	    
+	    
 	    inscricao.cpf = cpf;
 	    inscricao.codProcesso_ = codProcesso;
 	    inscricao.codDisciplina = codDisciplina;
@@ -120,56 +134,6 @@ public class InscricaoController implements ActionListener {
 	}
 	
 	
-	
-	private boolean cpfJaExiste(String cpf) throws IOException {
-	    String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
-	    File professor = new File(path, "Professor.csv");
-
-	    if (!professor.exists()) {
-	        return true;
-	    }
-
-	    BufferedReader br = new BufferedReader(new FileReader(professor));
-
-	    String linha;
-
-	    while ((linha = br.readLine()) != null) {
-	        String[] dados = linha.split(";");
-	        if (dados[0].equals(cpf)) {
-	            br.close();
-	            return false;
-	        }
-	    }
-	    
-
-	    br.close();
-	    return true;
-	}
-	
-	private boolean disciplinaJaExiste( String codigo) throws IOException {
-	    String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
-	    File disciplina = new File(path, "Disciplinas.csv");
-
-	    if (!disciplina.exists()) {
-	        return true;
-	    }
-
-	    BufferedReader bt = new BufferedReader(new FileReader(disciplina));
-
-	    String linha;
-
-
-	    while ((linha = bt.readLine()) != null) {
-	        String[] dados = linha.split(";");
-	        if (dados[0].equals(codigo)) {
-	            bt.close();
-	            return false;
-	        }
-	    }
-
-	    bt.close();
-	    return true;
-	}
 	
 		private void insereInscricao(String csvInscricao)throws IOException {
 		String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
@@ -240,7 +204,7 @@ public class InscricaoController implements ActionListener {
 
 		String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
 
-		File arq = new File(path, "inscicoes.csv");
+		File arq = new File(path, "inscricoes.csv");
 
 		if (arq.exists() && arq.isFile()) {
 
@@ -279,7 +243,7 @@ public class InscricaoController implements ActionListener {
 
 		String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
 
-		File arq = new File(path, "iscricoes.csv");
+		File arq = new File(path, "inscricoes.csv");
 
 		if (arq.exists()) {
 
@@ -392,7 +356,7 @@ public class InscricaoController implements ActionListener {
 
 				salvarListaInscricao(lista);
 				
-				TaInsc.setText("I atualizada com sucesso!");
+				TaInsc.setText("Inscrição atualizada com sucesso!");
 
 				return;
 			}
@@ -403,5 +367,11 @@ public class InscricaoController implements ActionListener {
 		TaInsc.setText("Disciplina não encontrada.");
 		
 	}
+	
+	private void limpar() {
+		TFCodProcesso_.setText("");
+		TFDaDisciplina.setText("");
+		TFCPFInsc.setText("");
+    }
 	
 }

@@ -74,31 +74,37 @@ public class ProfessorController implements ActionListener {
 	}
 	
 	
-	private ListaEncadeada<Professor>
-	carregarListaProfessores() throws IOException {
+	private ListaEncadeada<Professor> carregarListaProfessores() throws IOException {
 
-	    ListaEncadeada<Professor> lista =
-	            new ListaEncadeada<>();
+	    ListaEncadeada<Professor> lista = new ListaEncadeada<>();
 
-	    String path =
-	        System.getProperty("user.home")
-	        + File.separator
-	        + "SistemaCadastro";
+	    String path = System.getProperty("user.home")
+	            + File.separator
+	            + "SistemaCadastro";
 
 	    File arq = new File(path, "professor.csv");
 
-	    if(arq.exists()) {
+	    if (arq.exists()) {
 
-	        BufferedReader buffer =
-	            new BufferedReader(
+	        BufferedReader buffer = new BufferedReader(
 	                new InputStreamReader(
-	                    new FileInputStream(arq)));
+	                        new FileInputStream(arq)));
 
 	        String linha = buffer.readLine();
 
-	        while(linha != null) {
+	        while (linha != null) {
+
+	            if (linha.trim().isEmpty()) {
+	                linha = buffer.readLine();
+	                continue;
+	            }
 
 	            String[] dados = linha.split(";");
+
+	            if (dados.length < 4) {
+	                linha = buffer.readLine();
+	                continue;
+	            }
 
 	            Professor p = new Professor();
 
@@ -287,38 +293,6 @@ public class ProfessorController implements ActionListener {
 	    }
 	}
 	
-	//private Professor buscaProfessor(Professor professor) throws IOException {
-	//	String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
-	//	File arq = new File(path, "professor.csv");
-	//	if(arq.exists() && arq.isFile()) {
-	//		FileInputStream fis = new FileInputStream(arq);
-	//		InputStreamReader isr = new InputStreamReader(fis);
-	//		BufferedReader buffer = new BufferedReader(isr);
-	//		String linha = buffer.readLine();
-	//		while (linha != null) {
-	//			
-	//			String[] vetLinha = linha.split(";");
-    //
-	//			if(vetLinha.length < 4) {
-	//			    linha = buffer.readLine();
-	//			    continue;
-	//			}
-	//			if (vetLinha[0].equals(professor.cpf)) {
-	//				professor.nome = vetLinha[1];
-	//				professor.areaInscricao = vetLinha[2];
-	//			    professor.pontos = vetLinha[3];
-	//			    break;
-	//			}
-	//			
-	//			linha = buffer.readLine();
-	//		}
-	//		buffer.close();
-	//		isr.close();
-	//		fis.close();
-	//		
-	//	}
-	//	return professor;
-	//}
 	
 	private Professor buscaProfessor(Professor professor) throws IOException {
 
@@ -431,11 +405,12 @@ public class ProfessorController implements ActionListener {
 	    tfProfessorPontos.setText("");
 	}
 	
-	private boolean cpfJaExiste(String cpf) throws IOException {
+	public boolean cpfJaExiste(String cpf) throws IOException {
 
 	    ListaEncadeada<Professor> lista = carregarListaProfessores();
 
 	    No<Professor> aux = lista.getPrimeiro();
+	    
 
 	    while(aux != null) {
 

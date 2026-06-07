@@ -81,40 +81,52 @@ public class DisciplinaController implements ActionListener {
 
 	private ListaEncadeada<Disciplina> carregarListaDisciplinas() throws IOException {
 
-		ListaEncadeada<Disciplina> lista = new ListaEncadeada<>();
+	    ListaEncadeada<Disciplina> lista = new ListaEncadeada<>();
 
-		String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
+	    String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
 
-		File arq = new File(path, "disciplina.csv");
+	    File arq = new File(path, "disciplina.csv");
 
-		if (arq.exists()) {
+	    if (arq.exists()) {
 
-			BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream(arq)));
+	        BufferedReader buffer = new BufferedReader(
+	                new InputStreamReader(
+	                        new FileInputStream(arq)));
 
-			String linha = buffer.readLine();
+	        String linha = buffer.readLine();
 
-			while (linha != null) {
+	        while (linha != null) {
 
-				String[] dados = linha.split(";");
+	            if (linha.trim().isEmpty()) {
+	                linha = buffer.readLine();
+	                continue;
+	            }
 
-				Disciplina d = new Disciplina();
+	            String[] dados = linha.split(";");
 
-				d.codigo = dados[0];
-				d.nome = dados[1];
-				d.diasemana = dados[2];
-				d.horarioinicial = dados[3];
-				d.qtdhorasdiarias = dados[4];
-				d.codigocurso = dados[5];
+	            if (dados.length < 6) {
+	                linha = buffer.readLine();
+	                continue;
+	            }
 
-				lista.addLast(d);
+	            Disciplina d = new Disciplina();
 
-				linha = buffer.readLine();
-			}
+	            d.codigo = dados[0];
+	            d.nome = dados[1];
+	            d.diasemana = dados[2];
+	            d.horarioinicial = dados[3];
+	            d.qtdhorasdiarias = dados[4];
+	            d.codigocurso = dados[5];
 
-			buffer.close();
-		}
+	            lista.addLast(d);
 
-		return lista;
+	            linha = buffer.readLine();
+	        }
+
+	        buffer.close();
+	    }
+
+	    return lista;
 	}
 	
 	public void removerDisciplinasPorCurso(String codigoCurso) throws IOException {
