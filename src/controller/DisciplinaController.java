@@ -13,9 +13,9 @@ import java.io.PrintWriter;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import br.edu.estruturaDados.fila.*;
-import br.edu.estruturaDados.fila.No;
-import br.edu.estruturaDados.listaEncadeada.*;
+import br.edu.estruturaDados.fila.Fila;
+import br.edu.estruturaDados.listaEncadeada.ListaEncadeada;
+import br.edu.estruturaDados.listaEncadeada.No;
 import model.Disciplina;
 
 public class DisciplinaController implements ActionListener {
@@ -119,7 +119,7 @@ public class DisciplinaController implements ActionListener {
 
 		ListaEncadeada<Disciplina> lista = carregarListaDisciplinas();
 
-		br.edu.estruturaDados.listaEncadeada.No<Disciplina> aux = lista.getPrimeiro();
+		No<Disciplina> aux = lista.getPrimeiro();
 
 		while (aux != null) {
 
@@ -160,7 +160,7 @@ public class DisciplinaController implements ActionListener {
 
 		ListaEncadeada<Disciplina> lista = carregarListaDisciplinas();
 
-		br.edu.estruturaDados.listaEncadeada.No<Disciplina> aux = lista.getPrimeiro();
+		No<Disciplina> aux = lista.getPrimeiro();
 
 		while (aux != null) {
 
@@ -197,7 +197,7 @@ public class DisciplinaController implements ActionListener {
 		FileWriter fw = new FileWriter(arq, false);
 		PrintWriter pw = new PrintWriter(fw);
 
-		br.edu.estruturaDados.listaEncadeada.No<Disciplina> aux = lista.getPrimeiro();
+		No<Disciplina> aux = lista.getPrimeiro();
 
 		while (aux != null) {
 
@@ -284,7 +284,7 @@ public class DisciplinaController implements ActionListener {
 
 		String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
 
-		File arq = new File(path, "professor.csv");
+		File arq = new File(path, "disciplina.csv");
 
 		if (arq.exists() && arq.isFile()) {
 
@@ -366,7 +366,7 @@ public class DisciplinaController implements ActionListener {
 
 	    ListaEncadeada<Disciplina> lista = carregarListaDisciplinas();
 
-	    br.edu.estruturaDados.listaEncadeada.No<Disciplina> aux = lista.getPrimeiro();
+	   No<Disciplina> aux = lista.getPrimeiro();
 
 	    while(aux != null) {
 
@@ -382,113 +382,5 @@ public class DisciplinaController implements ActionListener {
 	    return false;
 	}
 
-//	private void insere() throws IOException {
-//		Disciplina disciplina = new Disciplina();
-//		disciplina.codigo = tfDisciplinaCodigo.getText();
-//		disciplina.nome = tfDisciplinaNome.getText();
-//		disciplina.diasemana = tfDisciplinaSemana.getText();
-//		disciplina.horarioinicial = tfDisciplinaHora.getText();
-//		disciplina.qtdhorasdiarias = tfDisciplinaQtdHoras.getText();
-//		disciplina.codigocurso = tfDisciplinaCodCurso.getText();
-//
-//		insereDisciplina(disciplina.toString());
-//		tfDisciplinaCodigo.setText("");
-//		tfDisciplinaNome.setText("");
-//		tfDisciplinaSemana.setText("");
-//		tfDisciplinaHora.setText("");
-//		tfDisciplinaQtdHoras.setText("");
-//		tfDisciplinaCodCurso.setText("");
-//	}
-
-//	private void insereDisciplina(String csvDisciplina) throws IOException {
-//		String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
-//		File dir = new File(path);
-//		if (!dir.exists()) {
-//			dir.mkdir();
-//		}
-//		File arq = new File(path, "displicina.csv");
-//		boolean existe = false;
-//		if (arq.exists()) {
-//			existe = true;
-//		}
-//		FileWriter fw = new FileWriter(arq, existe);
-//		PrintWriter pw = new PrintWriter(fw);
-//		pw.write(csvDisciplina + "\r\n");
-//		pw.flush();
-//		pw.close();
-//		fw.close();
-//	}
-//
-//	}
-//	private Disciplina consultaDisciplina(Disciplina disciplina) throws IOException {
-//		String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
-//		File arq = new File (path,"disciplina.csv");
-//		if(arq.exists() &&arq.isFile()) {
-//			FileInputStream fis = new FileInputStream(arq);
-//			InputStreamReader isr = new InputStreamReader(fis);
-//			BufferedReader buffer = new BufferedReader(isr);
-//			String linha = buffer.readLine();
-//			while(linha !=null) {
-//				String[] vetLinha = linha.split(";");
-//				if(vetLinha[0].equals(disciplina.codigo)) {
-//					disciplina.nome=vetLinha[1];
-//					break;
-//				}
-//				linha=buffer.readLine();
-//			}
-//			buffer.close();
-//			isr.close();
-//			fis.close();
-//		}
-//		return disciplina;
-//	}
-
-//	private Disciplina consultaDisciplina(Disciplina disciplina) throws IOException {
-//
-//		Fila<Disciplina> fila = carregarFilaDisciplinas();
-//
-//		try {
-//
-//			while (!fila.isEmpty()) {
-//
-//				Disciplina d = fila.dequeue();
-//
-//				if (d.codigo.equals(disciplina.codigo)) {
-//					return d;
-//				}
-//			}
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return disciplina;
-//	}
-
-//	private void atualiza() {
-//		Disciplina disciplina = new Disciplina();
-//		disciplina.codigo = tfDisciplinaCodigo.getText();
-//		disciplina.nome = tfDisciplinaNome.getText();
-//		disciplina.diasemana = tfDisciplinaSemana.getText();
-//		disciplina.horarioinicial = tfDisciplinaHora.getText();
-//		disciplina.qtdhorasdiarias = tfDisciplinaQtdHoras.getText();
-//		disciplina.codigocurso = tfDisciplinaCodCurso.getText();
-//
-//		System.out.println(disciplina);
-//
-//	}
-//
-//	private void remove() {
-//		Disciplina disciplina = new Disciplina();
-//		disciplina.codigo = tfDisciplinaCodigo.getText();
-//		disciplina.nome = tfDisciplinaNome.getText();
-//		disciplina.diasemana = tfDisciplinaSemana.getText();
-//		disciplina.horarioinicial = tfDisciplinaHora.getText();
-//		disciplina.qtdhorasdiarias = tfDisciplinaQtdHoras.getText();
-//		disciplina.codigocurso = tfDisciplinaCodCurso.getText();
-//
-//		System.out.println(disciplina);
-
-//	}
 }
 
