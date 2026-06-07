@@ -150,8 +150,6 @@ public class InscricaoController implements ActionListener {
 		pw.close();
 		fw.close();
 		
-		
-		
 	}
 		
 	private void consulta() throws IOException {
