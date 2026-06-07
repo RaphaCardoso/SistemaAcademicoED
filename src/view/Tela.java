@@ -166,21 +166,6 @@ public class Tela extends JFrame {
 
 		//Botao Inscrição
 		
-		JButton btnCadastrarInscricao = new JButton("Cadastrar");
-		btnCadastrarInscricao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnCadastrarInscricao.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnCadastrarInscricao.setBounds(376, 48, 194, 25);
-		TelaInscrição.add(btnCadastrarInscricao);
-		
-
-		JButton btnBuscarInscrição = new JButton("Buscar Inscrição");
-		btnBuscarInscrição.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnBuscarInscrição.setBounds(376, 84, 194, 25);
-		TelaInscrição.add(btnBuscarInscrição);
-		
 		TFCodProcesso_ = new JTextField();
 		TFCodProcesso_.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		TFCodProcesso_.setColumns(10);
@@ -200,13 +185,45 @@ public class Tela extends JFrame {
 		TelaInscrição.add(TFDaDisciplina);
 		
 		JTextArea TaInsc = new JTextArea();
+		TaInsc.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		TaInsc.setBounds(10, 156, 579, 228);
 		TelaInscrição.add(TaInsc);
 				
-		InscricaoController icont = new InscricaoController(TFCodProcesso_, TFCPFInsc, TFDaDisciplina);
+		InscricaoController icont = new InscricaoController(TFCodProcesso_, TFCPFInsc, TFDaDisciplina, TaInsc);
+		
+		JButton btnBuscarInscrição = new JButton("Buscar Inscrição");
+		btnBuscarInscrição.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnBuscarInscrição.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnBuscarInscrição.setBounds(376, 46, 194, 25);
+		TelaInscrição.add(btnBuscarInscrição);		
+		
+		JButton btnCadastrarInscricao = new JButton("Cadastrar");
+		btnCadastrarInscricao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCadastrarInscricao.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCadastrarInscricao.setBounds(376, 11, 194, 25);
+		TelaInscrição.add(btnCadastrarInscricao);
+
+		JButton btnAtualizarInscrição = new JButton("Atualizar Inscrição");
+		btnAtualizarInscrição.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnAtualizarInscrição.setBounds(376, 82, 194, 25);
+		TelaInscrição.add(btnAtualizarInscrição);
+		
+		JButton btnDeletarInscricao = new JButton("Deletar Inscrição");
+		btnDeletarInscricao.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnDeletarInscricao.setBounds(376, 120, 194, 25);
+		TelaInscrição.add(btnDeletarInscricao);
 
 		btnCadastrarInscricao.addActionListener(icont);
 		btnBuscarInscrição.addActionListener(icont);
+		btnDeletarInscricao.addActionListener(icont);
+		btnAtualizarInscrição.addActionListener(icont);
+		
 		
 		
 		//tela Professor

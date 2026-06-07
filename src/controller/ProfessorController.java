@@ -406,7 +406,6 @@ public class ProfessorController implements ActionListener {
 
 	   
 	    if(cpfJaExiste(cpf)) {
-
 	        taProfessorLista.setText(
 	            "CPF já existente."
 	        );
