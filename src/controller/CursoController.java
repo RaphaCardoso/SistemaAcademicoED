@@ -166,7 +166,6 @@ public class CursoController implements ActionListener {
 
         StringBuilder sb = new StringBuilder();
 
-        // 👉 SEM código → lista tudo
         if (codigo.isEmpty()) {
 
             while (!fila.isEmpty()) {
@@ -177,7 +176,6 @@ public class CursoController implements ActionListener {
             return;
         }
 
-        // 👉 COM código → busca específico
         while (!fila.isEmpty()) {
 
             Curso c = fila.dequeue();
@@ -281,7 +279,7 @@ public class CursoController implements ActionListener {
     }
 
    
-    private boolean codigoJaExiste(String codigo) throws Exception {
+    public boolean codigoJaExiste(String codigo) throws Exception {
 
         ListaEncadeada<Curso> lista = carregarLista();
 

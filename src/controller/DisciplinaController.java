@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 import br.edu.estruturaDados.fila.Fila;
 import br.edu.estruturaDados.listaEncadeada.ListaEncadeada;
 import br.edu.estruturaDados.listaEncadeada.No;
+import model.Curso;
 import model.Disciplina;
 
 public class DisciplinaController implements ActionListener {
@@ -27,6 +29,7 @@ public class DisciplinaController implements ActionListener {
 	private JTextField tfDisciplinaCodCurso;
 	private JTextField tfDisciplinaSemana;
 	private JTextArea taDisciplinaLista;
+	private CursoController cursoController;
 
 	public DisciplinaController(JTextField tfDisciplinaCodigo, JTextField tfDisciplinaNome, JTextField tfDisciplinaHora,
 			JTextField tfDisciplinaQtdHoras, JTextField tfDisciplinaCodCurso, JTextField tfDisciplinaSemana,
@@ -39,6 +42,7 @@ public class DisciplinaController implements ActionListener {
 		this.tfDisciplinaCodCurso = tfDisciplinaCodCurso;
 		this.tfDisciplinaSemana = tfDisciplinaSemana;
 		this.taDisciplinaLista = taDisciplinaLista;
+		this.cursoController = new CursoController(null, null, null, null);
 	}
 
 	@Override
@@ -47,7 +51,7 @@ public class DisciplinaController implements ActionListener {
 		if (cmd.equals("Inserir")) {
 			try {
 				insere();
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -319,7 +323,7 @@ public class DisciplinaController implements ActionListener {
 		return fila;
 	}
 
-	private void insere() throws IOException {
+	private void insere() throws Exception {
 
 		String codigo = tfDisciplinaCodigo.getText();
 		String nome = tfDisciplinaNome.getText();
@@ -339,6 +343,12 @@ public class DisciplinaController implements ActionListener {
 
 			taDisciplinaLista.setText("Código de disciplina já existente.");
 			return;
+		}
+		
+		
+		if (!cursoController.codigoJaExiste(codcurso)) {
+		    taDisciplinaLista.setText("Código de curso não existe.");
+		    return;
 		}
 
 		Disciplina disciplina = new Disciplina();
@@ -362,7 +372,7 @@ public class DisciplinaController implements ActionListener {
 		tfDisciplinaCodCurso.setText("");
 	}
 	
-	private boolean codigoJaExiste(String codigo) throws IOException {
+	public boolean codigoJaExiste(String codigo) throws IOException {
 
 	    ListaEncadeada<Disciplina> lista = carregarListaDisciplinas();
 
@@ -381,6 +391,7 @@ public class DisciplinaController implements ActionListener {
 
 	    return false;
 	}
+	
 
 }
 
