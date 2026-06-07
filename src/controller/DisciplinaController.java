@@ -65,7 +65,7 @@ public class DisciplinaController implements ActionListener {
 		if (cmd.equals("Atualizar")) {
 			try {
 				atualiza();
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -116,6 +116,29 @@ public class DisciplinaController implements ActionListener {
 
 		return lista;
 	}
+	
+	public void removerDisciplinasPorCurso(String codigoCurso) throws IOException {
+
+	    ListaEncadeada<Disciplina> lista = carregarListaDisciplinas();
+
+	    No<Disciplina> aux = lista.getPrimeiro();
+
+	    while(aux != null) {
+
+	        Disciplina d = aux.getDado();
+
+	        
+	        No<Disciplina> proximo = aux.getProximo();
+
+	        if(d.codigocurso.equals(codigoCurso)) {
+	            lista.remove(d);
+	        }
+
+	        aux = proximo;
+	    }
+
+	    salvarListaDisciplinas(lista);
+	}
 
 	private void remove() throws IOException {
 
@@ -146,7 +169,7 @@ public class DisciplinaController implements ActionListener {
 		taDisciplinaLista.setText("Disciplina não encontrada.");
 	}
 
-	private void atualiza() throws IOException {
+	private void atualiza() throws Exception {
 
 		String codigo = tfDisciplinaCodigo.getText();
 		String nome = tfDisciplinaNome.getText();
@@ -160,6 +183,15 @@ public class DisciplinaController implements ActionListener {
 
 			taDisciplinaLista.setText("Todos os campos devem ser preenchidos.");
 			return;
+		}
+		
+		if (!cursoController.codigoJaExiste(codcurso)) {
+
+		    taDisciplinaLista.setText(
+		        "Código de curso não existe."
+		    );
+
+		    return;
 		}
 
 		ListaEncadeada<Disciplina> lista = carregarListaDisciplinas();
@@ -244,10 +276,11 @@ public class DisciplinaController implements ActionListener {
 		Disciplina disciplina = new Disciplina();
 
 		disciplina.codigo = tfDisciplinaCodigo.getText();
-
+		
+		
 		disciplina = consultaDisciplina(disciplina);
-
-		if (disciplina.codigo!= null) {
+		
+		if (disciplina.codigo!= null && disciplina.codigocurso != null) {
 
 			taDisciplinaLista.setText("Código: " + disciplina.codigo + " - Nome: " + disciplina.nome
 					+ " - Dia da semana: " + disciplina.diasemana + " - Horário de Início: " + disciplina.horarioinicial
@@ -263,7 +296,7 @@ public class DisciplinaController implements ActionListener {
 	private Disciplina consultaDisciplina(Disciplina disciplina) throws IOException {
 
 		Fila<Disciplina> fila = carregarFilaDisciplinas();
-
+		
 		try {
 
 			while (!fila.isEmpty()) {
@@ -271,6 +304,7 @@ public class DisciplinaController implements ActionListener {
 				Disciplina d = fila.dequeue();
 
 				if (d.codigo.equals(disciplina.codigo)) {
+					
 					return d;
 				}
 			}
@@ -278,7 +312,7 @@ public class DisciplinaController implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+	
 		return disciplina;
 	}
 

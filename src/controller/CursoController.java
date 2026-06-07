@@ -2,7 +2,12 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -11,6 +16,7 @@ import br.edu.estruturaDados.fila.Fila;
 import br.edu.estruturaDados.listaEncadeada.ListaEncadeada;
 import br.edu.estruturaDados.listaEncadeada.No;
 import model.Curso;
+import model.Disciplina;
 
 public class CursoController implements ActionListener {
 
@@ -216,6 +222,8 @@ public class CursoController implements ActionListener {
             taLista.setText("Preencha todos os campos!");
             return;
         }
+        
+        
 
         ListaEncadeada<Curso> lista = carregarLista();
 
@@ -242,6 +250,8 @@ public class CursoController implements ActionListener {
 
         taLista.setText("Curso não encontrado.");
     }
+    
+    
 
 
     private void remover() throws Exception {
@@ -263,11 +273,22 @@ public class CursoController implements ActionListener {
 
             if (String.valueOf(c.getCodigoCurso()).equals(codigo)) {
 
+                DisciplinaController dc =
+                        new DisciplinaController(
+                                null, null, null,
+                                null, null, null, null);
+
+                dc.removerDisciplinasPorCurso(codigo);
+
                 lista.remove(c);
 
                 salvarLista(lista);
 
-                taLista.setText("Curso removido com sucesso!");
+                taLista.setText(
+                    "Curso removido com sucesso! "
+                    + "Disciplinas vinculadas removidas."
+                );
+
                 limpar();
                 return;
             }
