@@ -5,7 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import controller.CursoControllerSwing;
+
+import controller.CursoController;
 import controller.DisciplinaController;
 import controller.ProfessorController;
 import model.Inscricao;
@@ -134,7 +135,7 @@ public class Tela extends JFrame {
 		TelaCurso.add(TFCursoArea);
 
 
-		CursoControllerSwing cCont = new CursoControllerSwing(
+		CursoController cCont = new CursoController(
 			    TFCursoCodigo, TFCursoNome, TFCursoArea, TAListaCurso
 			);
 		
