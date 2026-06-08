@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import controller.InscricaoController;
+import controller.ConsultaController;
 
 
 public class Tela extends JFrame {
@@ -432,6 +433,28 @@ public class Tela extends JFrame {
 		btnDisciplinasAtualizar.addActionListener(dCont);
 		btnDisciplinasRemover.addActionListener(dCont);
 		
+        JPanel TelaConsulta = new JPanel();
+        tabbedPane.addTab("Consulta Inscritos", null, TelaConsulta, "Consultar pontuação");
+        TelaConsulta.setLayout(null);
 
+        JLabel lblConsultaInscritos = new JLabel("Consulta dos inscritos");
+        lblConsultaInscritos.setFont(new Font("Tahoma", Font.BOLD, 16));
+        lblConsultaInscritos.setBounds(203, 11, 187, 20);
+        TelaConsulta.add(lblConsultaInscritos);
+
+        JTextArea taConsultarInscritos = new JTextArea();
+        taConsultarInscritos.setBounds(10, 42, 579, 306);
+        TelaConsulta.add(taConsultarInscritos);
+
+        //botao Consultar inscritos
+        
+        
+        JButton btnConsultarInscritos = new JButton("Consultar");
+        btnConsultarInscritos.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnConsultarInscritos.setBounds(476, 359, 115, 25);
+        TelaConsulta.add(btnConsultarInscritos);
+
+        ConsultaController consultaController = new ConsultaController(taConsultarInscritos);
+        btnConsultarInscritos.addActionListener(consultaController);
 	}
 }
