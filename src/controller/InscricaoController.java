@@ -5,13 +5,13 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-import javax.swing.JOptionPane;
+
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -19,10 +19,6 @@ import br.edu.estruturaDados.fila.Fila;
 import br.edu.estruturaDados.listaEncadeada.ListaEncadeada;
 import br.edu.estruturaDados.listaEncadeada.No;
 import model.Inscricao;
-import model.Professor;
-import model.Disciplina;
-import controller.DisciplinaController;
-import controller.ProfessorController;
 
 
 
@@ -82,6 +78,26 @@ public class InscricaoController implements ActionListener {
 		
 	}
 	
+	public boolean codigoProcessoJaExiste(String codigoProcesso) throws IOException {
+
+	    ListaEncadeada<Inscricao> lista = carregarListaInscricao();
+
+	    No<Inscricao> aux = lista.getPrimeiro();
+
+	    while (aux != null) {
+
+	        Inscricao inscricao = aux.getDado();
+
+	        if (inscricao.codProcesso_.equals(codigoProcesso)) {
+	            return true;
+	        }
+
+	        aux = aux.getProximo();
+	    }
+
+	    return false;
+	}
+	
 	private void insere() throws IOException {
 
 	    String cpf = TFCPFInsc.getText();
@@ -89,8 +105,7 @@ public class InscricaoController implements ActionListener {
 	    String codDisciplina = TFDaDisciplina.getText();
 	    
 	    Inscricao inscricao = new Inscricao();
-	    Professor professor = new Professor();
-	    Disciplina disciplina = new Disciplina();
+	 
 	    
 		   
 	    if(cpf.isEmpty() ||
@@ -101,12 +116,21 @@ public class InscricaoController implements ActionListener {
 	            "Todos os campos devem ser preenchidos."
 	        );
 	        return;
-	    } 
+	    }
+	    
+	    if (codigoProcessoJaExiste(codProcesso)) {
+
+	        TaInsc.setText(
+	            "Código de processo já cadastrado."
+	        );
+
+	        return;
+	    }
 	    
 	    
 	    if (!profController.cpfJaExiste(cpf)) {
 	    	
-	    	TaInsc.setText("Cadastro de Professor não encontrado.");
+	    	TaInsc.setText("Cadastro de CPF não encontrado.");
 	    	
 	    	return;
 		}
@@ -163,24 +187,21 @@ public class InscricaoController implements ActionListener {
 
 		
 		inscri = consultaInscricao(inscri);
-		
-		System.out.println(inscri);
 
-		if (inscri.codDisciplina != null && inscri.codProcesso_ != null) {
+		if (inscri.codDisciplina!= null ) {
 
 			TaInsc.setText("Codigo de processo: " + inscri.codProcesso_ + " - CPF: " + inscri.cpf
 					+ " - Codigo da disciplina " + inscri.codDisciplina);
 
 		} else {
 
-			TaInsc.setText("Inscrição não encontrada.");
+			TaInsc.setText("Codigo do processo não encontrada.");
 		}
 		
 	}
 	
 	private Inscricao consultaInscricao(Inscricao inscri) throws IOException {
 
-		System.out.println(inscri + " consulta inscricao");
 		Fila<Inscricao> fila = carregarFilaInscricao();
 
 		try {
@@ -190,7 +211,6 @@ public class InscricaoController implements ActionListener {
 				Inscricao inscricao = fila.dequeue();
 
 				if(inscri.codProcesso_.equals(inscricao.codProcesso_)) {
-					System.out.println("achou");
 					return inscricao;
 				}
 			}
@@ -199,46 +219,52 @@ public class InscricaoController implements ActionListener {
 			e.printStackTrace();
 		}
 
-		System.out.println("nao achou");
 		return inscri;
 	}
 	
 	private Fila<Inscricao> carregarFilaInscricao() throws IOException {
 
-		Fila<Inscricao> fila = new Fila<>();
+	    Fila<Inscricao> fila = new Fila<>();
 
-		String path = System.getProperty("user.home") + File.separator + "SistemaCadastro";
+	    String path = System.getProperty("user.home")
+	            + File.separator
+	            + "SistemaCadastro";
 
-		File arq = new File(path, "inscricoes.csv");
+	    File arq = new File(path, "inscricoes.csv");
 
-		if (arq.exists() && arq.isFile()) {
+	    if (arq.exists() && arq.isFile()) {
 
-			BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream(arq)));
+	        BufferedReader buffer =
+	                new BufferedReader(
+	                        new InputStreamReader(
+	                                new FileInputStream(arq)));
 
-			String linha = buffer.readLine();
+	        String linha;
 
-			while (linha != null) {
+	        while ((linha = buffer.readLine()) != null) {
 
-				String[] dados = linha.split(";");
+	            if (linha.trim().isEmpty()) {
+	                continue;
+	            }
 
-				if (dados.length >= 3) {
+	            String[] dados = linha.split(";");
 
-					Inscricao inscricao = new Inscricao();
+	            if (dados.length >= 3) {
 
-					inscricao.cpf = dados[0];
-					inscricao.codProcesso_ = dados[1];
-					inscricao.codDisciplina = dados[2];
-					
-					fila.enqueue(inscricao);
-				}
+	                Inscricao inscricao = new Inscricao();
+	                
+	                inscricao.cpf = dados[0];
+	                inscricao.codProcesso_ = dados[1];
+	                inscricao.codDisciplina = dados[2];
 
-				linha = buffer.readLine();
-			}
+	                fila.enqueue(inscricao);
+	            }
+	        }
 
-			buffer.close();
-		}
+	        buffer.close();
+	    }
 
-		return fila;
+	    return fila;
 	}
 	
 	
@@ -254,16 +280,11 @@ public class InscricaoController implements ActionListener {
 
 			BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream(arq)));
 
-			String linha ;
+			String linha = buffer.readLine();
 
-			 while ((linha = buffer.readLine()) != null) {
+			while (linha != null) {
 
-	                if (linha.trim().isEmpty()) continue;
-
-	                String[] dados = linha.split(";");
-
-	                if (dados.length < 3) continue;
-			 
+				String[] dados = linha.split(";");
 
 				Inscricao inscricao = new Inscricao();
 
@@ -350,6 +371,8 @@ public class InscricaoController implements ActionListener {
 			return;
 		}
 		
+	
+		
 		if (!profController.cpfJaExiste(cpf)) {
 
 		    TaInsc.setText(
@@ -392,7 +415,7 @@ public class InscricaoController implements ActionListener {
 			aux = aux.getProximo();
 		}
 
-		TaInsc.setText("Código do Processo não encontrado!");
+		TaInsc.setText("Disciplina não encontrada.");
 		
 	}
 	
