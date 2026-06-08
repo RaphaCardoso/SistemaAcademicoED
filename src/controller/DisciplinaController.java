@@ -79,7 +79,7 @@ public class DisciplinaController implements ActionListener {
 
 	}
 
-	private ListaEncadeada<Disciplina> carregarListaDisciplinas() throws IOException {
+	public ListaEncadeada<Disciplina> carregarListaDisciplinas() throws IOException {
 
 	    ListaEncadeada<Disciplina> lista = new ListaEncadeada<>();
 

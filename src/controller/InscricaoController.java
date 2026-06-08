@@ -268,7 +268,7 @@ public class InscricaoController implements ActionListener {
 	}
 	
 	
-	private ListaEncadeada<Inscricao> carregarListaInscricao() throws IOException {
+	public ListaEncadeada<Inscricao> carregarListaInscricao() throws IOException {
 
 		ListaEncadeada<Inscricao> lista = new ListaEncadeada<>();
 

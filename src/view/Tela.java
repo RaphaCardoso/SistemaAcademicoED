@@ -6,10 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import br.edu.estruturaDados.listaEncadeada.No;
+import controller.ConsultaController;
 import controller.CursoController;
 import controller.DisciplinaController;
 import controller.ProfessorController;
+import controller.tabelaEspalhamentoController;
+import model.DisciplinaProcesso;
 import model.Inscricao;
+import model.TabelaHashProcesso;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
@@ -19,10 +24,10 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import controller.InscricaoController;
-import controller.ConsultaController;
 
 
 public class Tela extends JFrame {
@@ -61,7 +66,7 @@ public class Tela extends JFrame {
 		});
 	}
 
-	public Tela() {
+	public Tela() throws IOException {
 		setTitle("SistemaAcademicoED");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 480);
@@ -453,8 +458,56 @@ public class Tela extends JFrame {
         btnConsultarInscritos.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnConsultarInscritos.setBounds(476, 359, 115, 25);
         TelaConsulta.add(btnConsultarInscritos);
+        
+        JButton btnGerarHash = new JButton("Gerar Hash");
+        btnGerarHash.setBounds(300, 359, 150, 25);
+        TelaConsulta.add(btnGerarHash);
 
         ConsultaController consultaController = new ConsultaController(taConsultarInscritos);
         btnConsultarInscritos.addActionListener(consultaController);
+        
+        
+        // ========================================================= tabela de espalhamento ===========================
+        btnGerarHash.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+
+                    tabelaEspalhamentoController thc = new tabelaEspalhamentoController();
+                    TabelaHashProcesso hash = thc.gerarHash();
+
+                    taConsultarInscritos.setText("");
+
+                    for (int i = 0; i < hash.getTabela().length; i++) {
+
+                        No<DisciplinaProcesso> aux = hash.getTabela()[i].getPrimeiro();
+
+                        if (aux != null) {
+                            taConsultarInscritos.append("Posição " + i + ":\n");
+                        }
+
+                        while (aux != null) {
+
+                            DisciplinaProcesso dp = aux.getDado();
+
+                            taConsultarInscritos.append(
+                                "Disciplina: " + dp.disciplina.codigo +
+                                " | Nome: " + dp.disciplina.nome +
+                                " | Curso: " + dp.curso.getNomeCurso() +
+                                " | Processo: " + dp.codigoProcesso + "\n"
+                            );
+
+                            aux = aux.getProximo();
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    taConsultarInscritos.setText("Erro ao gerar hash: " + ex.getMessage());
+                }
+            }
+        });
+
+                
 	}
+
 }

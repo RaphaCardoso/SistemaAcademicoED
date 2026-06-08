@@ -77,7 +77,7 @@ public class CursoController implements ActionListener {
     }
 
 
-    private ListaEncadeada<Curso> carregarLista() throws IOException {
+    public ListaEncadeada<Curso> carregarLista() throws IOException {
 
         ListaEncadeada<Curso> lista = new ListaEncadeada<>();
 
