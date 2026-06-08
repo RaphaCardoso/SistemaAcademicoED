@@ -163,21 +163,24 @@ public class InscricaoController implements ActionListener {
 
 		
 		inscri = consultaInscricao(inscri);
+		
+		System.out.println(inscri);
 
-		if (inscri.codDisciplina!= null) {
+		if (inscri.codDisciplina != null && inscri.codProcesso_ != null) {
 
 			TaInsc.setText("Codigo de processo: " + inscri.codProcesso_ + " - CPF: " + inscri.cpf
 					+ " - Codigo da disciplina " + inscri.codDisciplina);
 
 		} else {
 
-			TaInsc.setText("Disciplina não encontrada.");
+			TaInsc.setText("Inscrição não encontrada.");
 		}
 		
 	}
 	
 	private Inscricao consultaInscricao(Inscricao inscri) throws IOException {
 
+		System.out.println(inscri + " consulta inscricao");
 		Fila<Inscricao> fila = carregarFilaInscricao();
 
 		try {
@@ -187,6 +190,7 @@ public class InscricaoController implements ActionListener {
 				Inscricao inscricao = fila.dequeue();
 
 				if(inscri.codProcesso_.equals(inscricao.codProcesso_)) {
+					System.out.println("achou");
 					return inscricao;
 				}
 			}
@@ -195,6 +199,7 @@ public class InscricaoController implements ActionListener {
 			e.printStackTrace();
 		}
 
+		System.out.println("nao achou");
 		return inscri;
 	}
 	
@@ -249,11 +254,16 @@ public class InscricaoController implements ActionListener {
 
 			BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream(arq)));
 
-			String linha = buffer.readLine();
+			String linha ;
 
-			while (linha != null) {
+			 while ((linha = buffer.readLine()) != null) {
 
-				String[] dados = linha.split(";");
+	                if (linha.trim().isEmpty()) continue;
+
+	                String[] dados = linha.split(";");
+
+	                if (dados.length < 3) continue;
+			 
 
 				Inscricao inscricao = new Inscricao();
 
@@ -382,7 +392,7 @@ public class InscricaoController implements ActionListener {
 			aux = aux.getProximo();
 		}
 
-		TaInsc.setText("Disciplina não encontrada.");
+		TaInsc.setText("Código do Processo não encontrado!");
 		
 	}
 	
