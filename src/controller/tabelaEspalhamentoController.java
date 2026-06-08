@@ -34,9 +34,17 @@ public class tabelaEspalhamentoController {
 	        Inscricao insc = i.getDado();
 
 	        Disciplina d = buscarDisciplina(insc.codDisciplina, disciplinas);
+	        
+	        if (d == null) {
+	            System.out.println("Disciplina não encontrada: " + insc.codDisciplina);
+	        }
 
 	        if (d != null) {
 	            Curso c = buscarCurso(d.codigocurso, cursos);
+	            
+	            if (c == null) {
+	                System.out.println("Curso não encontrado: " + d.codigocurso);
+	            }
 
 	            DisciplinaProcesso dp =
 	                new DisciplinaProcesso(d, c, insc.codProcesso_);

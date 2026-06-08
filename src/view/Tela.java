@@ -459,8 +459,9 @@ public class Tela extends JFrame {
         btnConsultarInscritos.setBounds(476, 359, 115, 25);
         TelaConsulta.add(btnConsultarInscritos);
         
-        JButton btnGerarHash = new JButton("Gerar Hash");
-        btnGerarHash.setBounds(300, 359, 150, 25);
+        JButton btnGerarHash = new JButton("Consultar Disciplinas com Processos abertos");
+        btnGerarHash.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnGerarHash.setBounds(10, 358, 380, 25);
         TelaConsulta.add(btnGerarHash);
 
         ConsultaController consultaController = new ConsultaController(taConsultarInscritos);
@@ -476,7 +477,12 @@ public class Tela extends JFrame {
                     tabelaEspalhamentoController thc = new tabelaEspalhamentoController();
                     TabelaHashProcesso hash = thc.gerarHash();
 
-                    taConsultarInscritos.setText("");
+                    taConsultarInscritos.setText("Teste de butao ");
+                    taConsultarInscritos.setText("DEBUG:\n");
+
+                    taConsultarInscritos.append("Tamanho da tabela: " + hash.getTabela().length + "\n");
+                    
+                    //erro está daqui para baixo 
 
                     for (int i = 0; i < hash.getTabela().length; i++) {
 
